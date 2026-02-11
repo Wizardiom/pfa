@@ -34,9 +34,9 @@ void printQuadFormula(QuadFormula* qf)
 double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf)
 {
   if (strcmp(qf->name, "left")){
-    double A = malloc (N * sizeof(double));
-    double B = malloc (N * sizeof(double));
-    double Q = malloc (N * sizeof(double));
+    double *A = malloc (N * sizeof(double));
+    double *B = malloc (N * sizeof(double));
+    double *Q = malloc (N * sizeof(double));
     double res = 0.0;
     for (int i = 0; i < N; i++){
       A[i] = a + i*((b-a)/N);
@@ -50,9 +50,9 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     return res;
   }
   elif (strcmp(qf->name, "right")){
-    double A = malloc (N * sizeof(double));
-    double B = malloc (N * sizeof(double));
-    double Q = malloc (N * sizeof(double));
+    double *A = malloc (N * sizeof(double));
+    double *B = malloc (N * sizeof(double));
+    double *Q = malloc (N * sizeof(double));
     double res = 0.0;
     for (int i = 0; i < N; i++){
       A[i] = a + i*((b-a)/N);
@@ -66,9 +66,9 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     return res;
   }
   elif (strcmp(qf->name, "middle")){
-    double A = malloc (N * sizeof(double));
-    double B = malloc (N * sizeof(double));
-    double Q = malloc (N * sizeof(double));
+    double *A = malloc (N * sizeof(double));
+    double *B = malloc (N * sizeof(double));
+    double *Q = malloc (N * sizeof(double));
     double res = 0.0;
     for (int i = 0; i < N; i++){
       A[i] = a + i*((b-a)/N);
@@ -82,9 +82,9 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     return res;
   }
   elif (strcmp(qf->name, "trapezes")){
-    double A = malloc (N * sizeof(double));
-    double B = malloc (N * sizeof(double));
-    double Q = malloc (N * sizeof(double));
+    double *A = malloc (N * sizeof(double));
+    double *B = malloc (N * sizeof(double));
+    double *Q = malloc (N * sizeof(double));
     double res = 0.0;
     for (int i = 0; i < N; i++){
       A[i] = a + i*((b-a)/N);
