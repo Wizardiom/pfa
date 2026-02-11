@@ -9,15 +9,14 @@
 bool setQuadFormula(QuadFormula* qf, char* name)
 {
   if (strcmp(name, "left") != 0 && strcmp(name, "right") != 0 && strcmp(name, "middle") != 0 && strcmp(name, "trapezes") != 0 && strcmp(name, "simpson") != 0 && strcmp(name, "gauss2") != 0 && strcmp(name, "gauss3") != 0)
-   
-  return false;
-}
-size_t len = strlen(name);
-for (int i = 0; i < len; i++)
+    return false;
+  size_t len = strlen(name);
+  for (int i = 0; i < len; i++)
      qf->name[i] = name[i];
+
+  qf->name[len] = '\0';
   return true;
 }
-
 /* This function is not required ,but it may useful to debug */
 void printQuadFormula(QuadFormula* qf)
 {
