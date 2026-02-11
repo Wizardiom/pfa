@@ -49,7 +49,7 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     free(Q);
     return res;
   }
-  elif (strcmp(qf->name, "right")){
+  else if (strcmp(qf->name, "right")){
     double *A = malloc (N * sizeof(double));
     double *B = malloc (N * sizeof(double));
     double *Q = malloc (N * sizeof(double));
@@ -65,7 +65,7 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     free(Q);
     return res;
   }
-  elif (strcmp(qf->name, "middle")){
+  else if (strcmp(qf->name, "middle")){
     double *A = malloc (N * sizeof(double));
     double *B = malloc (N * sizeof(double));
     double *Q = malloc (N * sizeof(double));
@@ -81,7 +81,7 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     free(Q);
     return res;
   }
-  elif (strcmp(qf->name, "trapezes")){
+  else if (strcmp(qf->name, "trapezes")){
     double *A = malloc (N * sizeof(double));
     double *B = malloc (N * sizeof(double));
     double *Q = malloc (N * sizeof(double));
