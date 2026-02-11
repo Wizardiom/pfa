@@ -33,7 +33,72 @@ void printQuadFormula(QuadFormula* qf)
 */
 double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf)
 {
-  return 0.0;
+  if (strcmp(qf->name, "left")){
+    double A = malloc (N * sizeof(double));
+    double B = malloc (N * sizeof(double));
+    double Q = malloc (N * sizeof(double));
+    double res = 0.0;
+    for (int i = 0; i < N; i++){
+      A[i] = a + i*((b-a)/N);
+      B[i] = a + (i+1)*((b-a)/N);
+      Q[i] = (B[i] - A[i]) * (*f)(A[i]);
+      res += Q[i];
+    }
+    free(A);
+    free(B);
+    free(Q);
+    return res;
+  }
+  elif (strcmp(qf->name, "right")){
+    double A = malloc (N * sizeof(double));
+    double B = malloc (N * sizeof(double));
+    double Q = malloc (N * sizeof(double));
+    double res = 0.0;
+    for (int i = 0; i < N; i++){
+      A[i] = a + i*((b-a)/N);
+      B[i] = a + (i+1)*((b-a)/N);
+      Q[i] = (B[i] - A[i]) * (*f)(B[i]);
+      res += Q[i];
+    }
+    free(A);
+    free(B);
+    free(Q);
+    return res;
+  }
+  elif (strcmp(qf->name, "middle")){
+    double A = malloc (N * sizeof(double));
+    double B = malloc (N * sizeof(double));
+    double Q = malloc (N * sizeof(double));
+    double res = 0.0;
+    for (int i = 0; i < N; i++){
+      A[i] = a + i*((b-a)/N);
+      B[i] = a + (i+1)*((b-a)/N);
+      Q[i] = (B[i] - A[i]) * (*f)((A[i]+B[i])/2.0);
+      res += Q[i];
+    }
+    free(A);
+    free(B);
+    free(Q);
+    return res;
+  }
+  elif (strcmp(qf->name, "trapezes")){
+    double A = malloc (N * sizeof(double));
+    double B = malloc (N * sizeof(double));
+    double Q = malloc (N * sizeof(double));
+    double res = 0.0;
+    for (int i = 0; i < N; i++){
+      A[i] = a + i*((b-a)/N);
+      B[i] = a + (i+1)*((b-a)/N);
+      Q[i] = (B[i] - A[i]) * (*f)(A[i]);
+      res += Q[i];
+    }
+    free(A);
+    free(B);
+    free(Q);
+    return res;
+  }
+  else
+    return 0.0;
 }
 
 double integrate_dx(double (*f)(double), double a, double b, double dx, QuadFormula* qf)
