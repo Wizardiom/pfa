@@ -89,7 +89,7 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     for (int i = 0; i < N; i++){
       A[i] = a + i*((b-a)/N);
       B[i] = a + (i+1)*((b-a)/N);
-      Q[i] = (B[i] - A[i]) * (*f)(A[i]/2) + (*f)(B[i]/2);
+      Q[i] = (B[i] - A[i]) * ((*f)(A[i]/2) + (*f)(B[i]/2));
       res += Q[i];
     }
     free(A);
