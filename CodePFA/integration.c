@@ -11,6 +11,40 @@ bool setQuadFormula(QuadFormula* qf, char* name)
      qf->name[i] = name[i];
 
   qf->name[len] = '\0';
+  if (strcmp(name, "left" == 0)){
+    qf->sizex = 1;
+    qf->x = malloc(qf->sizex * sizeof(double));
+    qf->sizew = 1;
+    qf->w = malloc(qf->sizew * sizeof(double));
+    qf->x[0] = 0;
+    qf->w[0] = 1;
+  }
+  else if (strcmp(name, "right" == 0)){
+    qf->sizex = 1;
+    qf->x = malloc(qf->sizex * sizeof(double));
+    qf->sizew = 1;
+    qf->w = malloc(qf->sizew * sizeof(double));
+    qf->x[0] = 1;
+    qf->w[0] = 1;
+  }
+  else if (strcmp(name, "middle" == 0)){
+    qf->sizex = 1;
+    qf->x = malloc(qf->sizex * sizeof(double));
+    qf->sizew = 1;
+    qf->w = malloc(qf->sizew * sizeof(double));
+    qf->x[0] = 0.5;
+    qf->w[0] = 1;
+  }
+  else if (strcmp(name, "trapezes" == 0)){
+    qf->sizex = 2;
+    qf->x = malloc(qf->sizex * sizeof(double));
+    qf->sizew = 2;
+    qf->w = malloc(qf->sizew * sizeof(double));
+    qf->x[0] = 0;
+    qf->x[1] = 1;
+    qf->w[0] = 0.5;
+    qf->w[1] = 0.5;
+  }
   return true;
 }
 

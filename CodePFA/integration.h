@@ -20,9 +20,9 @@
 typedef struct{
    char name[20]; /* Name of the quadrature formula. */
    int n;
-   int *x;
+   double *x;
    int sizex;
-   int *w;
+   double *w;
    int sizew;
                  /* (possible value: "left", "right", "middle", "trapezes", "simpson", "gauss2" or "gauss3") */
   /* Add here other paramaters to the structure definition, that you may need for the integral function */
