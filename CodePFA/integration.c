@@ -41,6 +41,37 @@ bool setQuadFormula(QuadFormula* qf, char* name)
     qf->w[0] = 0.5;
     qf->w[1] = 0.5;
   }
+  else if (strcmp(name, "simpson") == 0){
+    qf->size = 3;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
+    qf->x[0] = 0;
+    qf->x[1] = 0.5;
+    qf->x[2] = 1;
+    qf->w[0] = 1.0/6.0;
+    qf->w[1] = 4.0/6.0;
+    qf->w[2] = 1.0/6.0;
+  }
+  else if (strcmp(name, "gauss2") == 0){
+    qf->size = 2;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
+    qf->x[0] = 0.5 - sqrt(3.0)/6.0;
+    qf->x[1] = 0.5 + sqrt(3.0)/6.0;
+    qf->w[0] = 0.5;
+    qf->w[1] = 0.5;
+  }
+  else if (strcmp(name, "gauss3") == 0){
+    qf->size = 3;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
+    qf->x[0] = 0.5 - sqrt(15.0)/10.0;
+    qf->x[1] = 0.5;
+    qf->x[2] = 0.5 + sqrt(15.0)/10.0;
+    qf->w[0] = 5.0/18.0;
+    qf->w[1] = 8.0/18.0;
+    qf->w[2] = 5.0/18.0;
+  }
   return true;
 }
 
@@ -71,7 +102,9 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
 
 double integrate_dx(double (*f)(double), double a, double b, double dx, QuadFormula* qf)
 {
-  return 0.0;
+  int N = (int) round( abs(b-a)/dx);
+  double res = integrate(f, a, b, N, qf);
+  return res;
 }
 
 
