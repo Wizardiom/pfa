@@ -11,35 +11,31 @@ bool setQuadFormula(QuadFormula* qf, char* name)
      qf->name[i] = name[i];
 
   qf->name[len] = '\0';
-  if (strcmp(name, "left" == 0)){
-    qf->sizex = 1;
-    qf->x = malloc(qf->sizex * sizeof(double));
-    qf->sizew = 1;
-    qf->w = malloc(qf->sizew * sizeof(double));
+  if (strcmp(name, "left") == 0){
+    qf->size = 1;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
     qf->x[0] = 0;
     qf->w[0] = 1;
   }
-  else if (strcmp(name, "right" == 0)){
-    qf->sizex = 1;
-    qf->x = malloc(qf->sizex * sizeof(double));
-    qf->sizew = 1;
-    qf->w = malloc(qf->sizew * sizeof(double));
+  else if (strcmp(name, "right") == 0){
+    qf->size = 1;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
     qf->x[0] = 1;
     qf->w[0] = 1;
   }
-  else if (strcmp(name, "middle" == 0)){
-    qf->sizex = 1;
-    qf->x = malloc(qf->sizex * sizeof(double));
-    qf->sizew = 1;
-    qf->w = malloc(qf->sizew * sizeof(double));
+  else if (strcmp(name, "middle") == 0){
+    qf->size = 1;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
     qf->x[0] = 0.5;
     qf->w[0] = 1;
   }
-  else if (strcmp(name, "trapezes" == 0)){
-    qf->sizex = 2;
-    qf->x = malloc(qf->sizex * sizeof(double));
-    qf->sizew = 2;
-    qf->w = malloc(qf->sizew * sizeof(double));
+  else if (strcmp(name, "trapezes") == 0){
+    qf->size = 2;
+    qf->x = malloc(qf->size * sizeof(double));
+    qf->w = malloc(qf->size * sizeof(double));
     qf->x[0] = 0;
     qf->x[1] = 1;
     qf->w[0] = 0.5;
@@ -62,18 +58,14 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
     double ai = a + i * h;
     double bi = ai + h;
     
-    if (!strcmp(qf->name, "left")){
-      res += h * (*f)(ai);
-    }
-    else if (!strcmp(qf->name, "right")){
-      res += h * (*f)(bi);
-    }
-    else if (!strcmp(qf->name, "middle")){
-      res += h * (*f)((ai + bi) / 2.0);
-    }
-    else if (!strcmp(qf->name, "trapezes")){
-      res += h * ((*f)(ai) / 2.0 + (*f)(bi) / 2.0);
-    }
+    if (strcmp(qf->name, "left") == 0)
+      res += qf->w[0] * f(ai);
+    else if (strcmp(qf->name, "right") == 0)
+      res += qf->w[0] * f(bi);
+    else if (strcmp(qf->name, "middle") == 0)
+      res += qf->w[0] * f((ai + bi) / 2);
+    else if (strcmp(qf->name, "trapezes") == 0)
+      res += qf->w[0] * f(ai) + qf->w[1] * f(bi);
     else
       return 0.0;
   }
