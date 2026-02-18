@@ -53,21 +53,17 @@ double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf
 {
   double h = (b - a) / N;
   double res = 0.0;
-  
+  if(setQuadFormula(qf, qf->name) == false)
+    return 0.0;
   for (int i = 0; i < N; i++){
     double ai = a + i * h;
     double bi = ai + h;
-    
-    if (strcmp(qf->name, "left") == 0)
-      res += qf->w[0] * f(ai);
-    else if (strcmp(qf->name, "right") == 0)
-      res += qf->w[0] * f(bi);
-    else if (strcmp(qf->name, "middle") == 0)
-      res += qf->w[0] * f((ai + bi) / 2);
-    else if (strcmp(qf->name, "trapezes") == 0)
-      res += qf->w[0] * f(ai) + qf->w[1] * f(bi);
-    else
-      return 0.0;
+    double tempres = 0.0;
+    for (int j = 0; j < qf->size; j++){
+      double xj = ai + qf->x[j] * (bi - ai);
+      tempres += qf->w[j] * f(xj);
+    }
+    res += tempres*(bi - ai);
   }
   
   return res;
