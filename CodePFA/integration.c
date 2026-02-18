@@ -1,7 +1,3 @@
-
-
-
-
 #define INTEGRATION_C
 
 #include "integration.h"
@@ -17,88 +13,38 @@ bool setQuadFormula(QuadFormula* qf, char* name)
   qf->name[len] = '\0';
   return true;
 }
-/* This function is not required ,but it may useful to debug */
+
 void printQuadFormula(QuadFormula* qf)
 {
   printf("Quadratic formula: %s\n", qf->name);
-  /* Print everything else that may be useful */
 }
 
-
-/* Approximate the integral of function f from a to b.
-   - f is a pointer to a function pointer
-   - a and b are the integration bounds
-   - Interval [a,b] is split in N subdivisions [ai,bi]
-   - Integral of f on each subdivision [ai,bi] is approximated by the quadrature formula qf.
-*/
 double integrate(double (*f)(double), double a, double b, int N, QuadFormula* qf)
 {
-  if (!strcmp(qf->name, "left")){
-    double *A = malloc (N * sizeof(double));
-    double *B = malloc (N * sizeof(double));
-    double *Q = malloc (N * sizeof(double));
-    double res = 0.0;
-    for (int i = 0; i < N; i++){
-      A[i] = a + i*((b-a)/N);
-      B[i] = a + (i+1)*((b-a)/N);
-      Q[i] = (B[i] - A[i]) * (*f)(A[i]);
-      res += Q[i];
+  double h = (b - a) / N;
+  double res = 0.0;
+  
+  for (int i = 0; i < N; i++){
+    double ai = a + i * h;
+    double bi = ai + h;
+    
+    if (!strcmp(qf->name, "left")){
+      res += h * (*f)(ai);
     }
-    free(A);
-    free(B);
-    free(Q);
-    return res;
-  }
-  else if (!strcmp(qf->name, "right")){
-    double *A = malloc (N * sizeof(double));
-    double *B = malloc (N * sizeof(double));
-    double *Q = malloc (N * sizeof(double));
-    double res = 0.0;
-    for (int i = 0; i < N; i++){
-      A[i] = a + i*((b-a)/N);
-      B[i] = a + (i+1)*((b-a)/N);
-      Q[i] = (B[i] - A[i]) * (*f)(B[i]);
-      res += Q[i];
+    else if (!strcmp(qf->name, "right")){
+      res += h * (*f)(bi);
     }
-    free(A);
-    free(B);
-    free(Q);
-    return res;
-  }
-  else if (!strcmp(qf->name, "middle")){
-    double *A = malloc (N * sizeof(double));
-    double *B = malloc (N * sizeof(double));
-    double *Q = malloc (N * sizeof(double));
-    double res = 0.0;
-    for (int i = 0; i < N; i++){
-      A[i] = a + i*((b-a)/N);
-      B[i] = a + (i+1)*((b-a)/N);
-      Q[i] = (B[i] - A[i]) * (*f)((A[i]+B[i])/2.0);
-      res += Q[i];
+    else if (!strcmp(qf->name, "middle")){
+      res += h * (*f)((ai + bi) / 2.0);
     }
-    free(A);
-    free(B);
-    free(Q);
-    return res;
-  }
-  else if (!strcmp(qf->name, "trapezes")){
-    double *A = malloc (N * sizeof(double));
-    double *B = malloc (N * sizeof(double));
-    double *Q = malloc (N * sizeof(double));
-    double res = 0.0;
-    for (int i = 0; i < N; i++){
-      A[i] = a + i*((b-a)/N);
-      B[i] = a + (i+1)*((b-a)/N);
-      Q[i] = (B[i] - A[i]) * ((*f)(A[i])/2 + (*f)(B[i])/2);
-      res += Q[i];
+    else if (!strcmp(qf->name, "trapezes")){
+      res += h * ((*f)(ai) / 2.0 + (*f)(bi) / 2.0);
     }
-    free(A);
-    free(B);
-    free(Q);
-    return res;
+    else
+      return 0.0;
   }
-  else
-    return 0.0;
+  
+  return res;
 }
 
 double integrate_dx(double (*f)(double), double a, double b, double dx, QuadFormula* qf)
