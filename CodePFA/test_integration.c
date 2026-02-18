@@ -13,16 +13,20 @@ int main()
 {
   QuadFormula qf;
   double I1,I2,I3,I4;
-  printf("Left : \n %d" , setQuadFormula(&qf, "left"));
+  printf("Left : \n");
+  setQuadFormula(&qf, "left");
   I1 = integrate(f, 0, M_PI, 1, &qf);
   printf("%f\n", I1);
-  printf("Right : \n %d" , setQuadFormula(&qf, "right"));
+  printf("Right : \n");
+  setQuadFormula(&qf, "right");
   I2 = integrate(f, 0, M_PI, 1, &qf);
   printf("%f\n", I2);
-  printf("Middle : \n %d" , setQuadFormula(&qf, "middle"));
+  printf("Middle : \n");
+  setQuadFormula(&qf, "middle");
   I3 = integrate(f, 0, M_PI, 1, &qf);
   printf("%f\n", I3);
-  printf("Trapezes : \n %d" , setQuadFormula(&qf, "trapezes"));
+  printf("Trapezes : \n");
+  setQuadFormula(&qf, "trapezes");
   I4 = integrate(f, 0, M_PI, 1, &qf);
   printf("%f\n", I4);
 }
