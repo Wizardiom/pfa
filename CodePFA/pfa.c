@@ -86,9 +86,7 @@ double clientCDF_X(InsuredClient* client, double x)
 {
   if (x <= 0)
     return 0.0;
-  localClient = client;
-  localX = x;
-  return integrate_dx(clientPDF_X, 0, x, 0.01, &pfaQF);
+  return PHI((log(x) - client->mu) / client->sig);
 }
 
 
