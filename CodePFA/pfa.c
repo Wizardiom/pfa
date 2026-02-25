@@ -16,7 +16,9 @@
 */
 bool init_integration(char* quadrature, double dt)
 { 
-  return true;
+  if (dt <= 0) 
+    return false;
+  return setQuadFormula(&pfaQF, quadrature);
 }
 
 
@@ -30,6 +32,14 @@ double phi(double x)
 /* Cumulative distribution function of the normal distribution */
 double PHI(double x)
 {
+  if (!init_integration("gauss3", 0.01))
+  {
+    printf("Error\n");
+    return -1.0;
+  }
+  else {
+    return 0.5 + integrate_dx(phi, 0, x, 0.01, &pfaQF);
+  }
   return 0.0;
 }
 

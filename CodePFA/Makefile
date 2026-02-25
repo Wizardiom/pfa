@@ -28,5 +28,5 @@ pfa.o: pfa.c pfa.h integration.h
 # .PHONY: clean
 
 clean:
-	$(RM) *.o
+	$(RM) *.o test_integration test_pfa
 
