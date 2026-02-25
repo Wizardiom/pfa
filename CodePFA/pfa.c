@@ -48,6 +48,17 @@ double PHI(double x)
 */
 double optionPrice(Option* option)
 {
+  double z0 = ( log(option->K/option->S0) - (option->mu - option->sig*option->sig/2)*option->T ) / ( option->sig * sqrt(option->T) );
+  if (option->type == CALL)
+  {
+    double C= option->S0 * exp(option->mu*option->T) * PHI(option->sig*sqrt(option->T)-z0) - option->K  * PHI(-z0);
+    return C;
+  }
+  else if (option->type == PUT)
+  {
+    double P= option->K* PHI(z0) - option->S0 * exp(option->mu*option->T) * PHI(z0 - option->sig*sqrt(option->T));
+    return P;
+  }
   return 0.0;
 }
 
@@ -61,7 +72,10 @@ double optionPrice(Option* option)
 */
 double clientPDF_X(InsuredClient* client, double x)
 {
-  return 0.0;
+  if ( x<=0 ) 
+    return 0.0;
+  double F = phi((log(x) - client->mu) / client->sig)/(x*client->sig);
+  return F;
 }
 
 
@@ -70,7 +84,11 @@ double clientPDF_X(InsuredClient* client, double x)
 */
 double clientCDF_X(InsuredClient* client, double x)
 {
-  return 0.0;
+  if (x <= 0)
+    return 0.0;
+  localClient = client;
+  localX = x;
+  return integrate_dx(clientPDF_X, 0, x, 0.01, &pfaQF);
 }
 
 
