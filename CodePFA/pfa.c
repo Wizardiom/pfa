@@ -18,6 +18,7 @@ bool init_integration(char* quadrature, double dt)
 { 
   if (dt <= 0) 
     return false;
+  pfa_dt = dt;
   return setQuadFormula(&pfaQF, quadrature);
 }
 
@@ -74,7 +75,7 @@ double clientPDF_X(InsuredClient* client, double x)
 {
   if ( x<=0 ) 
     return 0.0;
-  double F = phi((log(x) - client->mu) / client->sig)/(x*client->sig);
+  double F = phi((log(x) - client->m) / client->s)/(x*client->s);
   return F;
 }
 
@@ -86,7 +87,7 @@ double clientCDF_X(InsuredClient* client, double x)
 {
   if (x <= 0)
     return 0.0;
-  return PHI((log(x) - client->mu) / client->sig);
+  return PHI((log(x) - client->m) / client->s);
 }
 
 
@@ -124,7 +125,8 @@ static double localProductPDF(double t)
 static double localPDF_X1X2(double x)
 {
   localX = x;
-  return 0.0;
+
+  return integrate_dx(localProductPDF, 0.0, x, pfa_dt, &pfaQF);
 } 
 
 
@@ -150,9 +152,12 @@ double clientPDF_X1X2(InsuredClient* client, double x)
 */
 double clientCDF_X1X2(InsuredClient* client, double x)
 {
+  if (x <= 0)
+    return 0.0;
+
   localClient = client;
 
-  return 0.0;
+  return integrate_dx(localPDF_X1X2, 0.0, x, pfa_dt, &pfaQF);
 }
 
 
@@ -162,7 +167,12 @@ double clientCDF_X1X2(InsuredClient* client, double x)
 */
 double clientCDF_S(InsuredClient* client, double x)
 {
-  return 0.0;
+  if (x < 0)
+    return 0.0;
+
+  return client->p[0]
+       + client->p[1] * clientCDF_X(client, x)
+       + client->p[2] * clientCDF_X1X2(client, x);
 }
 
 
